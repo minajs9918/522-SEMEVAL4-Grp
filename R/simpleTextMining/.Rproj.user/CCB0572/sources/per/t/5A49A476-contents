@@ -1,0 +1,51 @@
+---
+title: "myCorpus"
+author: "P-COM 0145019"
+date: "11/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r}
+#load tm package
+library(tm)
+
+#Create Corpus from .txt
+myCorpus <-Corpus(DirSource("D:/BackUp Mr.Wai/BAckup 20.07.2018/Documents/Operadownload/SEM 3-CODE_CDS_ 522/522-SEMEVAL4-Grp/522_GrpSEMEVAL_site/R/groundedemotionTextMining"))
+
+#View Corpus Information
+myCorpus
+summary(myCorpus)
+
+#inspect a particular document
+writeLines(as.character(myCorpus[[3]]))
+
+# convert to lower case
+myCorpus <- tm_map(myCorpus, content_transformer(tolower))
+#remove ������ what would be emojis
+myCorpus<-tm_map(myCorpus, content_transformer(gsub), pattern="\\W",replace=" ")
+# remove URLs
+removeURL <- function(x) gsub("http[^[:space:]]*", "", x)
+myCorpus <- tm_map(myCorpus, content_transformer(removeURL)
+)
+# remove anything other than English letters or space
+removeNumPunct <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
+myCorpus <- tm_map(myCorpus, content_transformer(removeNumPunct))
+# remove extra whitespace
+myCorpus <- tm_map(myCorpus, stripWhitespace)
+# Remove numbers
+myCorpus <- tm_map(myCorpus, removeNumbers)
+# Remove punctuations
+myCorpus <- tm_map(myCorpus, removePunctuation)
+
+#inspect a particular document (e.g. the 1st doc)
+writeLines(as.character(myCorpus[[3]]))
+```
+

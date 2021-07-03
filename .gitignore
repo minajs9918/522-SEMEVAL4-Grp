@@ -1,0 +1,9 @@
+# ignore ALL files in ANY directory named ?
+CDS522-project V1/
+
+# ignore ALL Compiled source files
+*.md
+*.txt
+*.png
+*.Rhistory
+*.R
